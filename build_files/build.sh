@@ -66,21 +66,5 @@ export DRACUT_NO_XATTR=1
 /usr/bin/dracut --no-hostonly --kver "${KERNEL_VERSION}" --reproducible -v --add ostree -f "/lib/modules/${KERNEL_VERSION}/initramfs.img"
 chmod 0600 "/lib/modules/${KERNEL_VERSION}/initramfs.img"
 
-# activate scx
-tee /etc/systemd/system/scxctl-once.service > /dev/null <<'EOF'
-[Unit]
-Description=Restart scxctl once after reboot, then disable itself
-After=multi-user.target
+# activate scx on boot? 
 
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/scxctl restart
-ExecStartPost=/bin/systemctl disable scxctl-once.service
-RemainAfterExit=no
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-systemctl daemon-reload
-systemctl enable scxctl-once.service
