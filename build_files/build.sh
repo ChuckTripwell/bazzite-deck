@@ -67,4 +67,20 @@ export DRACUT_NO_XATTR=1
 chmod 0600 "/lib/modules/${KERNEL_VERSION}/initramfs.img"
 
 # activate scx
-scxctl restart
+tee /etc/systemd/system/scxctl-once.service > /dev/null <<'EOF'
+[Unit]
+Description=Restart scxctl once after reboot, then disable itself
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/scxctl restart
+ExecStartPost=/bin/systemctl disable scxctl-once.service
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+systemctl enable scxctl-once.service
