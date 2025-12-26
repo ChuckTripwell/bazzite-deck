@@ -59,7 +59,7 @@ cd -
 # Regen initramfs
 releasever=$(/usr/bin/rpm -E %fedora)
 basearch=$(/usr/bin/arch)
-KERNEL_VERSION=$(dnf list kernel-cachyos-bore -q | awk '/kernel-cachyos-bore/ {print $2}' | head -n 1 | cut -d'-' -f1)-cachyos-bore1.fc${releasever}.${basearch}
+KERNEL_VERSION=$(dnf list kernel-cachyos-bore -q | awk '/kernel-cachyos-bore/ {print $2}' | head -n 1 | cut -d'-' -f1)-cachyos-bore.fc${releasever}.${basearch}
 # Ensure Initramfs is generated
 depmod -a ${KERNEL_VERSION}
 export DRACUT_NO_XATTR=1
