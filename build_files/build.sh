@@ -18,7 +18,7 @@ cd /usr/lib/kernel/install.d \
 dnf5 -y copr enable bieszczaders/kernel-cachyos-dev
 dnf5 -y remove kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra 
 rm -rf /lib/modules/* # Remove kernel files that remain
-dnf5 -y install kernel-cachyos-bore kernel-cachyos-bore-devel-matched --allowerasing
+dnf5 -y install kernel-cachyos-lto kernel-cachyos-lto-devel-matched --allowerasing
 
 dnf5 -y copr enable bieszczaders/kernel-cachyos-addons
 
@@ -59,7 +59,7 @@ cd -
 # Regen initramfs
 releasever=$(/usr/bin/rpm -E %fedora)
 basearch=$(/usr/bin/arch)
-KERNEL_VERSION=$(dnf list kernel-cachyos-bore -q | awk '/kernel-cachyos-bore/ {print $2}' | head -n 1 | cut -d'-' -f1)-cachyos*.fc${releasever}.${basearch}
+KERNEL_VERSION=$(dnf list kernel-cachyos-bore -q | awk '/kernel-cachyos-bore/ {print $2}' | head -n 1 | cut -d'-' -f1)-cachyos1.lto.fc${releasever}.${basearch}
 # Ensure Initramfs is generated
 depmod -a ${KERNEL_VERSION}
 export DRACUT_NO_XATTR=1
